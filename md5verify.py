@@ -157,7 +157,7 @@ if __name__ == "__main__":
     usage = "usage: %prog [options] path"
     parser = optparse.OptionParser(usage)
 
-    parser.add_option("-o", "--outfile", default="checksums.txt",
+    parser.add_option("-o", "--outfile", default=".checksums",
                       help=("What should the name of the output file be?"
                             " [default: %default]"))
     parser.add_option("-v", "--verbose", action="count", dest="verbose",
