@@ -101,7 +101,7 @@ def read_checksums(file):
                 match = md5line.match(line)
 
                 if not match:
-                    msg = "Invalid syntax in checksum file.  Line: %s" % line
+                    msg = "Invalid syntax in checksum file.  File: %s:%s" % (file, line)
                     log.error(msg)
                     continue
 
