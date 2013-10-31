@@ -183,5 +183,5 @@ if __name__ == "__main__":
         sys.exit(2)
 
     # Returns false when inconsistencies are found
-    if not process_directory(args[0], outfile=options.outfile):
+    if not process_directory(os.path.abspath(args[0]), outfile=options.outfile):
         sys.exit(1)
