@@ -138,7 +138,7 @@ def write_checksums(file, results):
                                 .replace("\n", "\\\n"))
                     line = "\\"
 
-                # Linux (and it's md5sum) don't care if a file is binary or not,
+                # Linux (and its md5sum) don't care if a file is binary or not,
                 # so I'm not going to care either.  If you care you'll need to:
                 # 1) Determine if the file is binary (most tools scan the file
                 #    for a null char)
