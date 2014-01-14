@@ -35,13 +35,10 @@ SCRIPT_VERSION = "0.1"
 SCRIPT_LICENSE = "MIT"
 SCRIPT_DESC    = "Auto-replies to 'ping' queries"
 
-import_ok = True
-
 try:
    import weechat as w
 except:
    print "Script must be run under weechat. http://www.weechat.org"
-   import_ok = False
 
 def privmsg(data, buffer, date, tags, displayed, is_hilight, prefix, msg):
   if w.buffer_get_string(buffer, "localvar_type") == "private":
