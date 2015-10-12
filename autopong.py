@@ -26,7 +26,7 @@
 #
 # History:
 #
-#   2013-01-11, Wil Clouser <wclouser@mozilla.com>:
+#   2013-01-11, Wil Clouser <clouserw@micropipes.com>:
 #       v0.1: Initial release
 
 SCRIPT_NAME    = "autopong"
