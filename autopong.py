@@ -40,6 +40,7 @@ SCRIPT_DESC    = "Auto-replies to 'ping' queries"
 
 import_ok = True
 
+# This can be changed with `/set plugins.var.python.autopong.reply_text`
 defaults = {
   "reply_text": "pong (https://blogs.gnome.org/markmc/2014/02/20/naked-pings/)"	
 }
