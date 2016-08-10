@@ -35,7 +35,7 @@
 
 SCRIPT_NAME    = "emoji2alias"
 SCRIPT_AUTHOR  = "Wil Clouser <clouserw@micropipes.com>"
-SCRIPT_VERSION = "0.2"
+SCRIPT_VERSION = "0.3"
 SCRIPT_LICENSE = "MIT"
 SCRIPT_DESC    = "Replaces emoji characters with their names"
 
@@ -52,7 +52,7 @@ import re
 # This is built from core.zip:/common/uca/allkeys_CLDR.txt available to
 # download from cldr.unicode.org/index/downloads .  A script whacks any lines
 # which *aren't* in the regex ranges below, then converts into a python
-# dictionary format.
+# dictionary format.  Note FE0E-FE0F are added manually. :(
 EMOJI_ALIASES = {
     u'\U0001F300': u'[cyclone]',
     u'\U0001F301': u'[foggy]',
@@ -1399,7 +1399,9 @@ EMOJI_ALIASES = {
     u'\U000027BC': u'[wedge-tailed rightwards arrow]',
     u'\U000027BD': u'[heavy wedge-tailed rightwards arrow]',
     u'\U000027BE': u'[open-outlined rightwards arrow]',
-    u'\U000027BF': u'[double curly loop]'
+    u'\U000027BF': u'[double curly loop]',
+    u'\U0000FE0E': u'',
+    u'\U0000FE0F': u''
 }
 
 try:
@@ -1409,7 +1411,8 @@ try:
                               u'\U0001F980-\U0001F984'
                               u'\U0001F9C0'  # cheese wedge! 🧀
                               u'\u2600-\u26FF'
-                              u'\u2700-\u27BF]',
+                              u'\u2700-\u27BF',
+                              u'\uFE0E-\uFE0F]',  # Drop variation sequences
                           re.DOTALL | re.UNICODE)
 except re.error as e:
     w.prnt("", u"%s[emoji2alias] Error: %s" % (w.prefix("error"), e))
