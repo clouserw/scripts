@@ -1411,7 +1411,7 @@ try:
                               u'\U0001F980-\U0001F984'
                               u'\U0001F9C0'  # cheese wedge! 🧀
                               u'\u2600-\u26FF'
-                              u'\u2700-\u27BF',
+                              u'\u2700-\u27BF'
                               u'\uFE0E-\uFE0F]',  # Drop variation sequences
                           re.DOTALL | re.UNICODE)
 except re.error as e:
