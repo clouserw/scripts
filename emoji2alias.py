@@ -25,8 +25,11 @@
 #
 # History:
 #
-#   2017-07-22, Wil Clouser <clouserw@micropipes.com>:
-#       v0.2: Turns out there are many emoji which do not have aliases.  Now
+#   2017-04-19, Wil Clouser <clouserw@micropipes.com>:
+#       v0.3: Improved stability by only applying substitutions to the text sent
+#             instead of the whole IRC string (which includes other metadata)
+#   2016-07-22, Wil Clouser <clouserw@micropipes.com>:
+#       v0.2: Turns out there are many emoji which do not have aliases!  Now
 #             supporting them as well.
 #             Added support for Unicode Modifiers (like Fitzpatrick).
 #   2016-03-15, Wil Clouser <clouserw@micropipes.com>:
@@ -52,7 +55,7 @@ import re
 # This is built from core.zip:/common/uca/allkeys_CLDR.txt available to
 # download from cldr.unicode.org/index/downloads .  A script whacks any lines
 # which *aren't* in the regex ranges below, then converts into a python
-# dictionary format.  Note FE0E-FE0F are added manually. :(
+# dictionary format.
 EMOJI_ALIASES = {
     u'\U0001F300': u'[cyclone]',
     u'\U0001F301': u'[foggy]',
@@ -1404,27 +1407,40 @@ EMOJI_ALIASES = {
     u'\U0000FE0F': u''
 }
 
+# Expressions taken from Martijn Pieters code at
+# http://stackoverflow.com/questions/26568722/remove-unicode-emoji-using-re-in-python
 try:
     ALIAS_RE = re.compile(u'['u'\U0001F300-\U0001F64F'
                               u'\U0001F680-\U0001F6F3'
                               u'\U0001F910-\U0001F918'
                               u'\U0001F980-\U0001F984'
-                              u'\U0001F9C0'  # cheese wedge! 🧀
+                              u'\U0001F9C0'  # the cheese stands alone 🧀
                               u'\u2600-\u26FF'
                               u'\u2700-\u27BF'
-                              u'\uFE0E-\uFE0F]',  # Drop variation sequences
+                              u'\uFE0E-\uFE0F]', # Drop variation sequences since the words will be the same
                           re.DOTALL | re.UNICODE)
 except re.error as e:
     w.prnt("", u"%s[emoji2alias] Error: %s" % (w.prefix("error"), e))
 
 def convert_emoji_to_aliases(data, modifier, modifier_data, string):
-    string = unicode(string, "utf-8")
-    emoji_found = ALIAS_RE.findall(string)
+
+    # Docs at
+    # https://weechat.org/files/doc/devel/weechat_scripting.en.html#irc_message_parse
+    details = w.info_get_hashtable("irc_message_parse", {"message": string})
+
+    _string = unicode(details['text'], "utf-8")
+
+    emoji_found = ALIAS_RE.findall(_string)
+
     for emoji in emoji_found:
         if emoji in EMOJI_ALIASES:
-            #w.prnt("", u"[emoji2alias] Replacing found emoji (%s) with (%s)." % (emoji.encode("raw_unicode_escape"), EMOJI_ALIASES[emoji]))
-            string = string.replace(emoji, EMOJI_ALIASES[emoji])
-    return string
+            w.prnt("", u"[emoji2alias] (%s) (%s) (%s) (%s)." % (details['nick'],
+                                                                details['channel'],
+                                                                emoji.encode("raw_unicode_escape"),
+                                                                EMOJI_ALIASES[emoji]))
+            _string = _string.replace(emoji, EMOJI_ALIASES[emoji])
+
+    return string[:int(details['pos_text'])] + _string
 
 if __name__ == "__main__" and import_ok:
 
