@@ -1434,10 +1434,10 @@ def convert_emoji_to_aliases(data, modifier, modifier_data, string):
 
     for emoji in emoji_found:
         if emoji in EMOJI_ALIASES:
-            w.prnt("", u"[emoji2alias] (%s) (%s) (%s) (%s)." % (details['nick'],
-                                                                details['channel'],
-                                                                emoji.encode("raw_unicode_escape"),
-                                                                EMOJI_ALIASES[emoji]))
+            #w.prnt("", u"[emoji2alias] (%s) (%s) (%s) (%s)." % (details['nick'],
+                                                                #details['channel'],
+                                                                #emoji.encode("raw_unicode_escape"),
+                                                                #EMOJI_ALIASES[emoji]))
             _string = _string.replace(emoji, EMOJI_ALIASES[emoji])
 
     return string[:int(details['pos_text'])] + _string
